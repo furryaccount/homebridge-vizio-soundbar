@@ -1,15 +1,21 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "HomebridgeVizioSoundbar",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "ip": {
+        "title": "Soundbar IP Address",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "192.168.6.9"
+      },
+      "name": {
+        "title": "Device Name",
+        "type": "string",
+        "required": true,
+        "default": "My Soundbar"
       }
     }
   }

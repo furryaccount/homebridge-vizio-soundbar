@@ -1,16 +1,16 @@
 {
-  "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
-  "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "private": false,
+  "displayName": "Homebridge Vizio Soundbar",
+  "name": "@jorts/homebridge-vizio-soundbar",
+  "version": "0.0.1",
+  "description": "Homebridge plugin for controlling vizio soundbars (very buggy)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git://github.com/furryaccount/homebridge-vizio-soundbar.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/furryaccount/homebridge-vizio-soundbar/issues"
   },
   "engines": {
     "node": ">=10.17.0",
@@ -26,7 +26,9 @@
   "keywords": [
     "homebridge-plugin"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "vizio-smart-cast": "github:furryaccount/vizio-soundbar"
+  },
   "devDependencies": {
     "@types/node": "^14.14.6",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
