@@ -1,8 +1,8 @@
 {
   "private": false,
   "displayName": "Homebridge Vizio Soundbar",
-  "name": "@jorts/homebridge-vizio-soundbar",
-  "version": "0.0.2-beta.0",
+  "name": "homebridge-vizio-soundbar",
+  "version": "0.0.2",
   "description": "Homebridge plugin for controlling vizio soundbars (very buggy)",
   "license": "Apache-2.0",
   "repository": {
@@ -39,5 +39,7 @@
     "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
-  }
+  },
+  "homepage": "https://github.com/furryaccount/homebridge-vizio-soundbar#readme",
+  "author": ""
 }
