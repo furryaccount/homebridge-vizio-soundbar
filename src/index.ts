@@ -1,4 +1,4 @@
-import { API, HAP, IndependentPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
+import { API, HAP, IndependentPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import smartcast, { Device } from 'vizio-smart-cast';
@@ -10,11 +10,9 @@ import smartcast, { Device } from 'vizio-smart-cast';
  */
 
 let hap: HAP;
-let Accessory: typeof PlatformAccessory;
 
 export = (api: API) => {
   hap = api.hap;
-  Accessory = api.platformAccessory;
 
   api.registerPlatform(PLATFORM_NAME, HomebridgeVizioSoundbar);
 };
@@ -36,7 +34,7 @@ class HomebridgeVizioSoundbar implements IndependentPlatformPlugin {
   ) {
     this.soundbar = new smartcast(this.config.ip as string);
     this.log.debug('Finished initializing platform:', this.config.name);
-    
+
     const uuid = hap.uuid.generate('homebridge:vizio-soundbar:accessory:' + this.config.name);
     this.accessory = new api.platformAccessory('Vizio Soundbar', uuid);
     this.accessory.getService(hap.Service.AccessoryInformation)!
