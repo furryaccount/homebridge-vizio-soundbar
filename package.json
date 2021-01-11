@@ -1,7 +1,7 @@
 {
   "private": false,
   "displayName": "Homebridge Vizio Soundbar",
-  "name": "homebridge-vizio-soundbar",
+  "name": "@jorts/homebridge-vizio-soundbar",
   "version": "0.0.2",
   "description": "Homebridge plugin for controlling vizio soundbars (very buggy)",
   "license": "Apache-2.0",
