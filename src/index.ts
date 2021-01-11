@@ -23,6 +23,7 @@ class HomebridgeVizioSoundbar implements IndependentPlatformPlugin {
   private televisionService: Service;
   private speakerService: Service;
   private inputIDs: Record<number, string> = {};
+  private inputNames: Record<string, number> = {};
   private currentInputID = 0;
 
   public accessory: PlatformAccessory;
@@ -36,7 +37,8 @@ class HomebridgeVizioSoundbar implements IndependentPlatformPlugin {
     this.log.debug('Finished initializing platform:', this.config.name);
 
     const uuid = hap.uuid.generate('homebridge:vizio-soundbar:accessory:' + this.config.name);
-    this.accessory = new api.platformAccessory('Vizio Soundbar', uuid);
+    const accessoryCategory = hap.Categories.SPEAKER;
+    this.accessory = new api.platformAccessory('Vizio Soundbar', uuid, accessoryCategory);
     this.accessory.getService(hap.Service.AccessoryInformation)!
       .setCharacteristic(hap.Characteristic.Manufacturer, 'Vizio')
       .setCharacteristic(hap.Characteristic.Model, 'Soundbar');
@@ -102,27 +104,28 @@ class HomebridgeVizioSoundbar implements IndependentPlatformPlugin {
       //get input name		
       const inputName = input.NAME as string;
       this.log.debug('Found %s', inputName);
+      if (inputName !== 'Current Input') {
 
-      const inputsService = new hap.Service.InputSource(inputName, 'input' + i);
-      this.inputIDs[i] = inputName;
+        const inputsService = new hap.Service.InputSource(inputName, 'input' + i);
+        this.inputIDs[i] = inputName;
+        this.inputNames[inputName] = i;
 
-      inputsService
-        .setCharacteristic(hap.Characteristic.Identifier, i)
-        .setCharacteristic(hap.Characteristic.ConfiguredName, inputName)
-        .setCharacteristic(hap.Characteristic.IsConfigured, hap.Characteristic.IsConfigured.CONFIGURED)
-        .setCharacteristic(hap.Characteristic.InputSourceType, hap.Characteristic.InputSourceType.HDMI)
-        .setCharacteristic(hap.Characteristic.CurrentVisibilityState, hap.Characteristic.CurrentVisibilityState.SHOWN);
+        inputsService
+          .setCharacteristic(hap.Characteristic.Identifier, i)
+          .setCharacteristic(hap.Characteristic.ConfiguredName, inputName)
+          .setCharacteristic(hap.Characteristic.IsConfigured, hap.Characteristic.IsConfigured.CONFIGURED)
+          .setCharacteristic(hap.Characteristic.InputSourceType, hap.Characteristic.InputSourceType.HDMI)
+          .setCharacteristic(hap.Characteristic.CurrentVisibilityState, hap.Characteristic.CurrentVisibilityState.SHOWN);
 
-      this.accessory.addService(inputsService);
-      this.televisionService.addLinkedService(inputsService);
+        this.accessory.addService(inputsService);
+        this.televisionService.addLinkedService(inputsService);
+      }
     });
   }
 
-  getInput(callback) {
-    let inputIdentifier = 0;
-    if (this.currentInputID >= 0) {
-      inputIdentifier = this.currentInputID;
-    }
+  async getInput(callback) {
+    const values = await this.soundbar.input.current();
+    const inputIdentifier = this.inputNames[values.ITEMS[0].VALUE];
     callback(null, inputIdentifier);
   }
 
